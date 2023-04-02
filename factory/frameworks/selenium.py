@@ -3,12 +3,10 @@ import os
 from colorama import Fore, Style
 
 
-class ProjectGenerator:
-    def __init__(self, project_name, project_path=None):
+class SeleniumFramework:
+    def __init__(self, project_dir):
         self.stdout = print
-        self.project_name = project_name
-        self.project_path = project_path
-        self.project_dir = os.path.join(self.project_path, self.project_name)
+        self.project_dir = project_dir
         self.directories = {
             "environments": {},
             "features": {
@@ -48,13 +46,13 @@ class ProjectGenerator:
 
     def create_files(self):
         files = {
-            os.path.join(self.project_name, "environments", "local.json"): "{}",
-            os.path.join(self.project_name, "environments", "dev.json"): "{}",
-            os.path.join(self.project_name, "environments", "stg.json"): "{}",
-            os.path.join(self.project_name, "features", "__init__.py"): "",
-            os.path.join(self.project_name, "features", "steps", "__init__.py"): "",
-            os.path.join(self.project_name, "features", "pages", "__init__.py"): "",
-            os.path.join(self.project_name, "features", "pages", "base.py"): {
+            os.path.join(self.project_dir, "environments", "local.json"): "{}",
+            os.path.join(self.project_dir, "environments", "dev.json"): "{}",
+            os.path.join(self.project_dir, "environments", "stg.json"): "{}",
+            os.path.join(self.project_dir, "features", "__init__.py"): "",
+            os.path.join(self.project_dir, "features", "steps", "__init__.py"): "",
+            os.path.join(self.project_dir, "features", "pages", "__init__.py"): "",
+            os.path.join(self.project_dir, "features", "pages", "base.py"): {
                 "content": [
                     "from selenium.webdriver.support import expected_conditions as ec",
                     "from selenium.webdriver.support.ui import WebDriverWait",
@@ -87,7 +85,7 @@ class ProjectGenerator:
                     "\t\treturn screenshot_path",
                 ]
             },
-            os.path.join(self.project_name, "features", "environment.py"): {
+            os.path.join(self.project_dir, "features", "environment.py"): {
                 "content": [
                     "import json",
                     "import os",
@@ -121,7 +119,7 @@ class ProjectGenerator:
                     "\t\t\t\t\tallure.attach(content, attachment_type=allure.attachment_type.PNG)",
                 ]
             },
-            os.path.join(self.project_name, 'features', 'Sample.feature'): {
+            os.path.join(self.project_dir, 'features', 'Sample.feature'): {
                 "content": [
                     "Feature: Sample feature",
                     "'''",
@@ -148,8 +146,8 @@ class ProjectGenerator:
                     "\t\t| bird | parrot |",
                 ]
             },
-            os.path.join(self.project_name, "features", "pages", "__init__.py"): "",
-            os.path.join(self.project_name, "utils", "handlers", "response_handler.py"): {
+            os.path.join(self.project_dir, "features", "pages", "__init__.py"): "",
+            os.path.join(self.project_dir, "utils", "handlers", "response_handler.py"): {
                 "content": [
                     "import json",
                     "import logging",
@@ -216,7 +214,7 @@ class ProjectGenerator:
                     "\t\t\tallure.attach(str(f'self.response.text'), name='Response', attachment_type=AttachmentType.TEXT)",
                 ]
             },
-            os.path.join(self.project_name, 'utils', 'browser.py'): {
+            os.path.join(self.project_dir, 'utils', 'browser.py'): {
                 "content": [
                     "from selenium import webdriver",
                     "from selenium.common.exceptions import SessionNotCreatedException",
@@ -248,23 +246,21 @@ class ProjectGenerator:
                     "\t\t\treturn driver",
                 ]
             },
-            os.path.join(self.project_name, "requirements.txt"): {
+            os.path.join(self.project_dir, "requirements.txt"): {
                 "content": [
                     "selenium",
                     "allure-behave",
                     "allure-python-commons",
                     "behave",
                     "Unipath",
-                    "selenium",
-                    "requests"
                 ]
             },
-            os.path.join(self.project_name, "requirements.dev.txt"): {
+            os.path.join(self.project_dir, "requirements.dev.txt"): {
                 "content": [
                     "flake8",
                 ]
             },
-            os.path.join(self.project_name, ".flake8"): {
+            os.path.join(self.project_dir, ".flake8"): {
                 "content": [
                     "[flake8]",
                     "max-line-length = 88",
@@ -282,9 +278,9 @@ class ProjectGenerator:
                     "docstring-convention = numpy",
                 ]
             },
-            os.path.join(self.project_name, "README.md"): {
+            os.path.join(self.project_dir, "README.md"): {
                 "content": [
-                    f"# {self.project_name.capitalize()}",
+                    f"# {self.project_dir.capitalize()}",
                     "",
                     "Fill with project description",
                 ]
@@ -319,10 +315,11 @@ class ProjectGenerator:
                         f"{Fore.BLUE}{file_path} content wroted...{Style.RESET_ALL}")
 
     def create_project(self):
-        self.stdout(f"{Fore.BLUE}Creating project...{Style.RESET_ALL}")
+        self.stdout(f"{Fore.BLUE}Creating directories...{Style.RESET_ALL}")
         self.create_directories()
         self.stdout(
-            f"{Fore.GREEN}All directories were created...{Style.RESET_ALL}")
+            f"{Fore.GREEN}All directories were created...{Style.RESET_ALL}"
+        )
 
         self.stdout(f"{Fore.BLUE}Creating files...{Style.RESET_ALL}")
         self.create_files()
