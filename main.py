@@ -12,7 +12,8 @@ def __main__():
         args = parser.parse_args()
 
         factory = FrameworkFactory(args.project_name, args.project_path)
-        factory.get_framework(args.framework)
+        framework = factory.get_framework(args.framework)
+        framework.create_project()
     except Exception as e:
         raise e
 
