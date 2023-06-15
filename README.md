@@ -2,6 +2,12 @@
 
 This scripts creates a python project framework for automation depending on the desired framework
 
+The first step is to install the dependencies:
+```sh
+pip install colorama
+```
+
+
 To create an API BDD automation project run the following command in a shell or cmd:
 
 ```sh
